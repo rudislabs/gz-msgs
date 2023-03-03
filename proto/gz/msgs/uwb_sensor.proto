@@ -43,7 +43,8 @@ message UWBSensor
   }
 
   /// \brief Orientation reference frame information
-  /// message OrientationReferenceFrame
+  message OrientationReferenceFrame
+  {
     /// \brief This string represents special hardcoded use cases that are
     /// commonly seen with typical robot UWB's:
     ///   - NED: The UWB XYZ aligns with NED, where NED orientation relative
@@ -52,8 +53,9 @@ message UWBSensor
     ///          to the world is defined by the SphericalCoordinates class.
     ///   - NWU: The UWB XYZ aligns with NWU, where NWU orientation relative
     ///          to the world is defined by the SphericalCoordinates class.
-    /// string localization               = 1;
-
+    string localization               = 1;
+  }
+  
   /// \brief Optional header data
   Header header                    = 1;
   
