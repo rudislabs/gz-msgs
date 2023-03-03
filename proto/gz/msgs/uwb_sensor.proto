@@ -62,9 +62,12 @@ message UWBSensor
   /// \brief Time since system start
   uint64 timestamp = 2;
 
+  /// \brief Mac address of the sensor. 
+  uint16 mac = 3
+
   /// \brief Angle of arrival information
-  AngleOfArrival angle_of_arrival = 3;
+  AngleOfArrival angle_of_arrival = 4;
   
   /// \brief Orientation reference frame information.
-  OrientationReferenceFrame orientation_ref_frame = 4;
+  OrientationReferenceFrame orientation_ref_frame = 5;
 }
