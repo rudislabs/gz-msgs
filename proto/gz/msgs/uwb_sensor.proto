@@ -36,15 +36,12 @@ message UWBSensor
   ///        i.e. azimuth dev is the azimuth angle calculated from the perspective of the UWB on controller
   message AngleOfArrival
   {
-    float aoa_azimuth_dev             = 1;
-    float aoa_elevation_dev           = 2;
-    float aoa_azimuth_resp            = 3;
-    float aoa_elevation_resp          = 4;
+    float aoa_azimuth             = 1;
+    float aoa_elevation           = 2;
   }
 
   /// \brief Orientation reference frame information
-  message OrientationReferenceFrame
-  {
+  /// message OrientationReferenceFrame {
     /// \brief This string represents special hardcoded use cases that are
     /// commonly seen with typical robot UWB's:
     ///   - NED: The UWB XYZ aligns with NED, where NED orientation relative
@@ -53,21 +50,17 @@ message UWBSensor
     ///          to the world is defined by the SphericalCoordinates class.
     ///   - NWU: The UWB XYZ aligns with NWU, where NWU orientation relative
     ///          to the world is defined by the SphericalCoordinates class.
-    string localization               = 1;
-  }
+  ///  string localization               = 1;}
   
   /// \brief Optional header data
   Header header                    = 1;
   
   /// \brief Time since system start
-  uint64 timestamp = 2;
+  /// uint64 timestamp = 2;
 
   /// \brief Mac address of the sensor. 
-  uint16 mac = 3
-
-  /// \brief Angle of arrival information
-  AngleOfArrival angle_of_arrival = 4;
+  /// uint16 mac_address = 3
   
   /// \brief Orientation reference frame information.
-  OrientationReferenceFrame orientation_ref_frame = 5;
+  /// OrientationReferenceFrame orientation_reference_frame = 2;
 }

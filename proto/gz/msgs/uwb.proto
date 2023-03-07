@@ -55,8 +55,8 @@ message UWB
   /// \brief The uwb session information.
   message UwbMacAddresses
   {
-    uint16 mac_dev = 1;
-    uint16 mac_resp = 2;
+    uint32 mac_dev = 1;
+    uint32 mac_resp = 2;
   }
 
   /// \brief Optional header data
@@ -72,6 +72,7 @@ message UWB
 
   /// \brief The mac address of each sensor
   UwbMacAddresses uwb_mac_address = 5;
+  
   /// \brief The distance between the 2 UWB sensor devices
   float distance = 6;
 
