@@ -25,6 +25,7 @@ option java_outer_classname = "UWBProtos";
 /// \brief Data from an UWB sensor
 
 import "gz/msgs/header.proto";
+import "gz/msgs/quaternion.proto";
 
 
 message UWB
@@ -78,4 +79,6 @@ message UWB
 
   /// \brief Angle of arrival information
   AngleOfArrival angle_of_arrival = 7;
+  
+  Quaternion orientation       = 8;
 }
