@@ -24,22 +24,11 @@ option java_outer_classname = "UWBSensorProtos";
 /// \interface UWBSensor
 /// \brief Information about an uwb sensor 
 
-///import "gz/msgs/sensor_noise.proto";
 import "gz/msgs/header.proto";
 ///import "gz/msgs/vector3d.proto";
 
 message UWBSensor
 {
-  /// \brief These are the azimuth and elevation of the 2 Uwb sensors with one being the controller (dev)
-  ///        and the second being the responder (resp). The responder is point 0, 0, 0 and the controller
-  ///        is at x, y, z relative to this position. The angles are related to the perspective of the device, i.e.
-  ///        i.e. azimuth dev is the azimuth angle calculated from the perspective of the UWB on controller
-  message AngleOfArrival
-  {
-    float aoa_azimuth             = 1;
-    float aoa_elevation           = 2;
-  }
-
   /// \brief Orientation reference frame information
   message OrientationReferenceFrame 
   {
@@ -60,9 +49,11 @@ message UWBSensor
   /// \brief Orientation reference frame information.
   OrientationReferenceFrame orientation_ref_frame = 2;
 
-  /// \brief Time since system start
-  /// uint64 timestamp = 2;
+    /// \brief The distance between the 2 UWB sensor devices
+  float distance = 3;
 
-  /// \brief Mac address of the sensor. 
-  /// uint16 mac_address = 3
+  float aoa_azimuth_dev             = 4;
+  float aoa_elevation_dev           = 5;
+  float aoa_azimuth_resp            = 6;
+  float aoa_elevation_resp          = 7;
 }

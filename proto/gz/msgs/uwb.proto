@@ -30,55 +30,18 @@ import "gz/msgs/quaternion.proto";
 
 message UWB
 {
-  /// \brief These are the azimuth and elevation of the 2 Uwb sensors with one being the controller (dev)
-  ///        and the second being the responder (resp). The responder is point 0, 0, 0 and the controller
-  ///        is at x, y, z relative to this position. The angles are related to the perspective of the device, i.e.
-  ///        i.e. azimuth dev is the azimuth angle calculated from the perspective of the UWB on controller
-  message AngleOfArrival
-  {
-    float aoa_azimuth_dev             = 1;
-    float aoa_elevation_dev           = 2;
-    float aoa_azimuth_resp            = 3;
-    float aoa_elevation_resp          = 4;
-  }
-
-  /// \brief The uwb session information.
-  ///        sessionid = UWB sessionID
-  ///        time_offset = Time between Ranging Rounds in ms
-  ///        counter = Number of ranges since the beginning of ranging
-  message SessionInformation
-  {
-    uint32 sessionid             = 1;
-    uint32 time_offset           = 2;
-    uint32 counter            = 3;
-  }
-
-  /// \brief The uwb session information.
-  message UwbMacAddresses
-  {
-    uint32 mac_dev = 1;
-    uint32 mac_resp = 2;
-  }
-
   /// \brief Optional header data
   Header header                = 1;
 
   string entity_name           = 2;
-  
-  /// \brief Time since system start
-  uint64 timestamp = 3;
 
-  /// \brief The information regarding the current session of uwb ranging
-  SessionInformation session_info = 4;
+  Quaternion orientation       = 3;
 
-  /// \brief The mac address of each sensor
-  UwbMacAddresses uwb_mac_address = 5;
-  
   /// \brief The distance between the 2 UWB sensor devices
-  float distance = 6;
+  float distance = 4;
 
-  /// \brief Angle of arrival information
-  AngleOfArrival angle_of_arrival = 7;
-  
-  Quaternion orientation       = 8;
+  float aoa_azimuth_dev             = 5;
+  float aoa_elevation_dev           = 6;
+  float aoa_azimuth_resp            = 7;
+  float aoa_elevation_resp          = 8;
 }
