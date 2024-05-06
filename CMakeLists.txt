@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 #============================================================================
 # Initialize the project
 #============================================================================
-project(gz-msgs9 VERSION 9.5.0)
+project(gz-msgs10 VERSION 10.1.2)
 
 #============================================================================
 # Find gz-cmake
@@ -17,63 +17,66 @@ find_package(gz-cmake3 REQUIRED)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-gz_configure_project(VERSION_SUFFIX)
-
-if (UNIX AND NOT APPLE)
-  set (EXTRA_TEST_LIB_DEPS stdc++fs)
-else()
-  set (EXTRA_TEST_LIB_DEPS)
-endif()
+gz_configure_project(VERSION_SUFFIX
+  CONFIG_EXTRAS "gz-msgs-extras.cmake.in")
 
 #============================================================================
 # Set project-specific options
 #============================================================================
 
 # Cross-compilation related options
-# In a cross-compilation scenario, it is possible that the gz_msgs_gen
+# In a cross-compilation scenario, it is possible that the 
+# ${PROJECT_NAME}_protoc_plugin
 # generator compiled for the target machine cannot be used to generate
-# the C++ code corresponding to the .proto definition. For this scenario,
-# the following two options can be used as follows.
+# the C++ code corresponding to the .proto definition.
+# Similarly, it is possible that Python3::Interpreter and protobuf::protoc
+# found via find_package are not executable that can be run during the build.
+# To avoid, that the following options can be used as follows.
 # First of all, gz-msgs is compiled targeting the host machine, and in the
-# build targeting the host, the INSTALL_GZ_MSGS_GEN_EXECUTABLE option is
-# enabled:
-# > cmake -DINSTALL_GZ_MSGS_GEN_EXECUTABLE:BOOL=ON ..
-# ensuring that the gz_msgs_gen is installed in
-# <host_install_prefix>/bin/gz_msgs_gen . Then, the same version of gz-msgs
+# build targeting the host, ensuring that the ${PROJECT_NAME}_protoc_plugin
+# is installed in <host_install_prefix>/bin/${PROJECT_NAME}_protoc_plugin . 
+# Then, the same version of gz-msgs
 # can be cross-compiled, and in the cross-compilation build the location of the
-# host gz_msgs_gen is specified via the GZ_MSGS_GEN_EXECUTABLE
-# CMake cache variable:
-# > cmake -GZ_MSGS_GEN_EXECUTABLE=<host_install_prefix>/bin/gz_msgs_gen ..
-
-# TODO(CH3): Deprecated. Remove IGN_MSGS CMake variables on tick-tock.
-if(INSTALL_IGN_MSGS_GEN_EXECUTABLE)
-  message(WARNING "INSTALL_IGN_MSGS_GEN_EXECUTABLE is deprecated, use INSTALL_GZ_MSGS_GEN_EXECUTABLE instead")
-  set(INSTALL_GZ_MSGS_GEN_EXECUTABLE ${INSTALL_IGN_MSGS_GEN_EXECUTABLE})
-else()
-  option(
-    INSTALL_GZ_MSGS_GEN_EXECUTABLE
-    "Install the gz_msgs_gen executable."
-    OFF)
-  set(INSTALL_IGN_MSGS_GEN_EXECUTABLE ${INSTALL_GZ_MSGS_GEN_EXECUTABLE})
-endif()
-
-mark_as_advanced(INSTALL_IGN_MSGS_GEN_EXECUTABLE)
-mark_as_advanced(INSTALL_GZ_MSGS_GEN_EXECUTABLE)
+# host gz_msgs_gen is specified via the GZ_MSGS_GEN_EXECUTABLE CMake option.
+# Similarly to gz-msgs, also a copy of protoc and of the Python interpreter need
+# to be installed in the host at <host_install_prefix>/bin, and they can be passed
+# to the build appropriate CMake options:
+# > cmake -Dgz-msgs<MajVer>_PROTO_GENERATOR_PLUGIN=gz-msgs<MajVer>_protoc_plugin
+# >       -Dgz-msgs<MajVer>_PROTOC_EXECUTABLE=<host_install_prefix>/bin/protoc
+# >       -Dgz-msgs<MajVer>_PYTHON_INTERPRETER=<host_install_prefix>/bin/python 
+# >        ..
+# In case the gz-msgs CMake functions are used also in downstream projects, 
+# the same variables can be passed when configuring the downsream projects.
 
 set(
-  GZ_MSGS_GEN_EXECUTABLE
-  "$<TARGET_FILE:gz_msgs_gen>"
+  ${PROJECT_NAME}_PROTO_GENERATOR_PLUGIN
+  "${PROJECT_NAME}_protoc_plugin"
   CACHE STRING
-  "gz_msgs_gen executable used in the gz_msgs_protoc CMake function.")
-mark_as_advanced(GZ_MSGS_GEN_EXECUTABLE)
+  "gz_msgs_gen executable used in the gz-msgs CMake functions.")
+mark_as_advanced(${PROJECT_NAME}_PROTO_GENERATOR_PLUGIN)
 
-# TODO(CH3): Deprecated. Remove IGN_MSGS CMake variables on tick-tock.
 set(
-  IGN_MSGS_GEN_EXECUTABLE
-  "$<TARGET_FILE:gz_msgs_gen>"
+  ${PROJECT_NAME}_PROTOC_EXECUTABLE
+  protobuf::protoc
   CACHE STRING
-  "gz_msgs_gen executable used in the gz_msgs_protoc CMake function.")
-mark_as_advanced(IGN_MSGS_GEN_EXECUTABLE)
+  "protoc target or executable used in the gz-msgs CMake functions.")
+mark_as_advanced(${PROJECT_NAME}_PROTOC_EXECUTABLE)
+
+set(
+  ${PROJECT_NAME}_PYTHON_INTERPRETER
+  Python3::Interpreter
+  CACHE STRING
+  "python target or executable used in the gz-msgs CMake functions.")
+mark_as_advanced(${PROJECT_NAME}_PYTHON_INTERPRETER)
+
+# Python interfaces vars
+option(USE_SYSTEM_PATHS_FOR_PYTHON_INSTALLATION
+      "Install python modules in standard system paths in the system"
+      OFF)
+
+option(USE_DIST_PACKAGES_FOR_PYTHON
+      "Use dist-packages instead of site-package to install python modules"
+      OFF)
 
 #============================================================================
 # Search for project-specific dependencies
@@ -86,6 +89,11 @@ gz_find_package(GzProtobuf
                  REQUIRED
                  COMPONENTS all
                  PRETTY Protobuf)
+
+#--------------------------------------
+# Find gz-utils
+gz_find_package(gz-utils2 REQUIRED)
+set(GZ_UTILS_VER ${gz-utils2_VERSION_MAJOR})
 
 #--------------------------------------
 # Find gz-math
@@ -103,6 +111,29 @@ set(GZ_TOOLS_VER 2)
 # Find Tinyxml2
 gz_find_package(TINYXML2 REQUIRED PRIVATE PRETTY tinyxml2)
 
+#--------------------------------------
+# Find DL if doing relocatable installation
+if (GZ_ENABLE_RELOCATABLE_INSTALL)
+  gz_find_package(DL REQUIRED)
+endif()
+
+#--------------------------------------
+# Find Python
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+if(NOT GZ_PYTHON_INSTALL_PATH)
+  if(USE_SYSTEM_PATHS_FOR_PYTHON_INSTALLATION)
+    if(USE_DIST_PACKAGES_FOR_PYTHON)
+      string(REPLACE "site-packages" "dist-packages" GZ_PYTHON_INSTALL_PATH ${Python3_SITELIB})
+    else()
+      # Python3_SITELIB might use dist-packages in some platforms
+      string(REPLACE "dist-packages" "site-packages" GZ_PYTHON_INSTALL_PATH ${Python3_SITELIB})
+    endif()
+  else()
+    # If not a system installation, respect local paths
+    set(GZ_PYTHON_INSTALL_PATH ${GZ_LIB_INSTALL_DIR}/python)
+  endif()
+endif()
 #============================================================================
 # Configure the build
 #============================================================================
@@ -121,16 +152,31 @@ add_subdirectory(tools)
 #============================================================================
 # Install proto files
 #============================================================================
-# TODO: Consider tweaking gz_configure_build() to call add_subdirectory(proto)
-# whenever a proto subdirectory exists. This could be used alongside
-# gz_msgs_protoc to get uniform support for proto messages across all Gazebo
-# projects.
 add_subdirectory(proto)
+
+# Generate python
+add_subdirectory(python)
 
 #============================================================================
 # Create package information
 #============================================================================
 gz_create_packages()
+
+#============================================================================
+# Install cmake extras for downstream users
+#============================================================================
+# Necessary to populate generator expressions
+file(
+  GENERATE
+  OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/gz-cmake/gz-msgs-extras.cmake"
+  INPUT "${CMAKE_CURRENT_BINARY_DIR}/gz-cmake/gz-msgs-extras.cmake"
+)
+
+# Install cmake support files
+install(
+  DIRECTORY cmake/
+  DESTINATION "${PROJECT_CMAKE_EXTRAS_RELATIVE_INSTALL_DIR}"
+)
 
 #============================================================================
 # Create documentation
@@ -142,7 +188,7 @@ configure_file(${CMAKE_SOURCE_DIR}/tutorials.md.in ${CMAKE_BINARY_DIR}/tutorials
 gz_create_docs(
   API_MAINPAGE_MD "${CMAKE_BINARY_DIR}/api.md"
   TUTORIALS_MAINPAGE_MD "${CMAKE_BINARY_DIR}/tutorials.md"
-  AUTOGENERATED_DOC "${CMAKE_BINARY_DIR}/include/gz/msgs/details"
+  IMAGE_PATH_DIRS "${CMAKE_SOURCE_DIR}/tutorials/files"
   TAGFILES
     "${GZ-MATH_DOXYGEN_TAGFILE} = ${GZ-MATH_API_URL}"
 )

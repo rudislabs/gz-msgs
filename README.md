@@ -9,17 +9,17 @@
 
 Build | Status
 -- | --
-Test coverage | [![codecov](https://codecov.io/gh/gazebosim/gz-msgs/branch/main/graph/badge.svg)](https://codecov.io/gh/gazebosim/gz-msgs)
-Ubuntu Focal | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=ignition_msgs-ci-main-focal-amd64)](https://build.osrfoundation.org/job/ignition_msgs-ci-main-focal-amd64)
-Homebrew      | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=ignition_msgs-ci-main-homebrew-amd64)](https://build.osrfoundation.org/job/ignition_msgs-ci-main-homebrew-amd64)
-Windows       | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=ign_msgs-ci-win)](https://build.osrfoundation.org/job/ign_msgs-ci-win)
+Test coverage | [![codecov](https://codecov.io/gh/gazebosim/gz-msgs/tree/gz-msgs10/graph/badge.svg)](https://codecov.io/gh/gazebosim/gz-msgs/tree/gz-msgs10)
+Ubuntu Jammy  | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=gz_msgs-ci-gz-msgs10-jammy-amd64)](https://build.osrfoundation.org/job/gz_msgs-ci-gz-msgs10-jammy-amd64)
+Homebrew      | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=gz_msgs-ci-gz-msgs10-homebrew-amd64)](https://build.osrfoundation.org/job/gz_msgs-ci-gz-msgs10-homebrew-amd64)
+Windows       | [![Build Status](https://build.osrfoundation.org/buildStatus/icon?job=gz_msgs-10-win)](https://build.osrfoundation.org/job/gz_msgs-10-win)
 
 Gazebo Messages is a component in the [Gazebo](http://gazebosim.org)
 framework, a set of libraries designed to rapidly develop robot applications.
 
 ## Installation
 
-See the [installation tutorial](https://gazebosim.org/api/msgs/7.0/install.html).
+See the [installation tutorial](https://gazebosim.org/api/msgs/10/install.html).
 
 ## Known issue of command line tools
 
@@ -29,7 +29,7 @@ line tools from `gz-tools` may not work correctly.
 A workaround for a single package is to define the environment variable
 `GZ_CONFIG_PATH` to point to the location of the Gazebo library installation,
 where the YAML file for the package is found, such as
-```
+```{.sh}
 export GZ_CONFIG_PATH=/usr/local/share/gz
 ```
 
@@ -38,12 +38,12 @@ installations from source are in different locations, only one can be specified.
 
 Another workaround for working with multiple Gazebo libraries on the command
 line is using symbolic links to each library's YAML file.
-```
+```{.sh}
 mkdir ~/.gz/tools/configs -p
 cd ~/.gz/tools/configs/
 ln -s /usr/local/share/gz/fuel8.yaml .
-ln -s /usr/local/share/gz/transport12.yaml .
-ln -s /usr/local/share/gz/transportlog12.yaml .
+ln -s /usr/local/share/gz/transport13.yaml .
+ln -s /usr/local/share/gz/transportlog13.yaml .
 ...
 export GZ_CONFIG_PATH=$HOME/.gz/tools/configs
 ```

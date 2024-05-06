@@ -1,3 +1,123 @@
+## Gazebo Msgs 10.x
+
+### Gazebo Msgs 10.1.2 (2024-04-08)
+
+1. Use relative install paths for gz tool data and extra cmake files
+    * [Pull request #436](https://github.com/gazebosim/gz-msgs/pull/436)
+
+1. Bazel updates for Harmonic
+    * [Pull request #397](https://github.com/gazebosim/gz-msgs/pull/397)
+
+1. Fix MSVC "possible loss of data" warning
+    * [Pull request #434](https://github.com/gazebosim/gz-msgs/pull/434)
+
+### Gazebo Msgs 10.1.1 (2024-03-14)
+
+1. Allow topic and service to construct messages from description files
+    * [Pull request #428](https://github.com/gazebosim/gz-msgs/pull/428)
+
+1. Conditionally use cmake_path on cmake < 3.20
+    * [Pull request #424](https://github.com/gazebosim/gz-msgs/pull/424)
+
+1. Remove duplicate find_package(Python3) call
+    * [Pull request #420](https://github.com/gazebosim/gz-msgs/pull/420)
+
+1. Bazel: Fix py_binary location
+    * [Pull request #406](https://github.com/gazebosim/gz-msgs/pull/406)
+
+1. Fix compiler warning in `generator.cc`
+    * [Pull request #403](https://github.com/gazebosim/gz-msgs/pull/403)
+
+1. Set GZ_TOOLS_VER to 2 for consistency with rest of Garden and Harmonic libraries
+    * [Pull request #391](https://github.com/gazebosim/gz-msgs/pull/391)
+
+### Gazebo Msgs 10.1.0 (2024-01-22)
+
+1. Add proto message for MaterialColor.
+    * [Pull request #414](https://github.com/gazebosim/gz-msgs/pull/414)
+    * [Pull request #415](https://github.com/gazebosim/gz-msgs/pull/415)
+    * [Pull request #416](https://github.com/gazebosim/gz-msgs/pull/416)
+
+1. Update CI badges in README
+    * [Pull request #412](https://github.com/gazebosim/gz-msgs/pull/412)
+
+1. Ensure that tests pass fine with GZ_RELOCATABLE_INSTALL option enabled
+    * [Pull request #394](https://github.com/gazebosim/gz-msgs/pull/394)
+
+1. Added missing parts to the `CMakeLists.txt` code.
+    * [Pull request #400](https://github.com/gazebosim/gz-msgs/pull/400)
+
+1. Miscellaneous cleanups of protobuf generator plugin
+    * [Pull request #405](https://github.com/gazebosim/gz-msgs/pull/405)
+
+1. Fix memory leak in generator plugin code
+    * [Pull request #404](https://github.com/gazebosim/gz-msgs/pull/404)
+
+1. Enables cmd commands on Windows
+    * [Pull request #402](https://github.com/gazebosim/gz-msgs/pull/402)
+
+1. Miscellaneous housekeeping
+    * [Pull request #398](https://github.com/gazebosim/gz-msgs/pull/398)
+
+1. Fix cross-compilation support for gz-msg10
+    * [Pull request #392](https://github.com/gazebosim/gz-msgs/pull/392)
+
+1. Do not redefine GZ_PYTHON_INSTALL_PATH if it is already defined
+    * [Pull request #393](https://github.com/gazebosim/gz-msgs/pull/393)
+
+### Gazebo Msgs 10.0.0 (2023-09-29)
+
+1. Add missing `<functional>` header
+    * [Pull request #382](https://github.com/gazebosim/gz-msgs/pull/382)
+
+1. Documentation fixes
+    * [Pull request #381](https://github.com/gazebosim/gz-msgs/pull/381)
+
+1. Generate messages in downstream builds
+    * [Pull request #339](https://github.com/gazebosim/gz-msgs/pull/339)
+    * [Pull request #356](https://github.com/gazebosim/gz-msgs/pull/356)
+    * [Pull request #359](https://github.com/gazebosim/gz-msgs/pull/359)
+    * [Pull request #361](https://github.com/gazebosim/gz-msgs/pull/361)
+    * [Pull request #368](https://github.com/gazebosim/gz-msgs/pull/368)
+    * [Pull request #374](https://github.com/gazebosim/gz-msgs/pull/374)
+    * [Pull request #377](https://github.com/gazebosim/gz-msgs/pull/377)
+    * [Pull request #379](https://github.com/gazebosim/gz-msgs/pull/379)
+    * [Pull request #386](https://github.com/gazebosim/gz-msgs/pull/386)
+    * [Pull request #384](https://github.com/gazebosim/gz-msgs/pull/384)
+
+1. Add python message generation
+    * [Pull request #362](https://github.com/gazebosim/gz-msgs/pull/362)
+    * [Pull request #364](https://github.com/gazebosim/gz-msgs/pull/364)
+
+1. Added AirSpeedSensor msgs to Sensor msg
+    * [Pull request #365](https://github.com/gazebosim/gz-msgs/pull/365)
+
+1. Add covariance fields to imu message
+    * [Pull request #333](https://github.com/gazebosim/gz-msgs/pull/333)
+
+1. Remove ignition
+    * [Pull request #367](https://github.com/gazebosim/gz-msgs/pull/367)
+    * [Pull request #335](https://github.com/gazebosim/gz-msgs/pull/335)
+
+1. Infrastructure
+    * [Pull request #370](https://github.com/gazebosim/gz-msgs/pull/370)
+    * [Pull request #369](https://github.com/gazebosim/gz-msgs/pull/369)
+    * [Pull request #363](https://github.com/gazebosim/gz-msgs/pull/363)
+    * [Pull request #331](https://github.com/gazebosim/gz-msgs/pull/331)
+
+1. Added cubemap_uri to sky
+    * [Pull request #306](https://github.com/gazebosim/gz-msgs/pull/306)
+
+1. Add id and visibility flags field to projector msg
+    * [Pull request #345](https://github.com/gazebosim/gz-msgs/pull/345)
+
+1. Add new discovery types
+    * [Pull request #322](https://github.com/gazebosim/gz-msgs/pull/322)
+
+1. ⬆️  Bump main to 10.0.0~pre1
+    * [Pull request #292](https://github.com/gazebosim/gz-msgs/pull/292)
+
+
 ## Gazebo Msgs 9.x
 
 ### Gazebo Msgs 9.5.0 (2023-08-25)
